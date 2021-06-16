@@ -2,10 +2,10 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-typedef ScrollsToTopCallback = Future<void> Function(ScrollToStartEvent event);
+typedef ScrollsToTopCallback = Future<void> Function(ScrollsToTopEvent event);
 
-class ScrollToStartEvent {
-  ScrollToStartEvent(
+class ScrollsToTopEvent {
+  ScrollsToTopEvent(
     this.to, {
     required this.duration,
     required this.curve,
@@ -92,7 +92,7 @@ class _FakeScrollPositionWithSingleContext
     required Curve curve,
   }) {
     return _onScrollsToTop(
-      ScrollToStartEvent(to, duration: duration, curve: curve),
+      ScrollsToTopEvent(to, duration: duration, curve: curve),
     );
   }
 }

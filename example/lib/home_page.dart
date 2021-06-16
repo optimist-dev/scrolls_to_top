@@ -11,10 +11,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<PublishSubject<ScrollToStartEvent>> _streams = [
-    PublishSubject<ScrollToStartEvent>(),
-    PublishSubject<ScrollToStartEvent>(),
-    PublishSubject<ScrollToStartEvent>(),
+  final List<PublishSubject<ScrollsToTopEvent>> _streams = [
+    PublishSubject<ScrollsToTopEvent>(),
+    PublishSubject<ScrollsToTopEvent>(),
+    PublishSubject<ScrollsToTopEvent>(),
   ];
   final List<Widget> _children = [];
   int _currentIndex = 0;
@@ -62,8 +62,12 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _onScrollsToTop(ScrollToStartEvent event) async {
+  Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {
     _streams[_currentIndex].add(event);
+  }
+
+  Widget _body() {
+    return Container();
   }
 
   void onTabTapped(int index) {

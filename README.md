@@ -23,6 +23,10 @@ Just wrap your main `Scaffold` with `ScrollsToTop` and provide `onScrollsToTop` 
     );
   }
 
-  Future<void> _onScrollsToTop(ScrollToStartEvent event) async {
+  Widget _body() {
+    return Container();
+  }
+
+  Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {
   }
 ```

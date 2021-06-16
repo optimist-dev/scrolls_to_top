@@ -11,7 +11,7 @@ class ContentPage extends StatefulWidget {
   }) : super(key: key);
 
   final Color backgroundColor;
-  final Stream<ScrollToStartEvent> stream;
+  final Stream<ScrollsToTopEvent> stream;
 
   @override
   State<ContentPage> createState() => _ContentPageState();
@@ -62,7 +62,7 @@ class _ContentPageState extends State<ContentPage> {
     );
   }
 
-  Future<void> _onScrollsToTop(ScrollToStartEvent event) async {
+  Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {
     debugPrint('Scroll to top!');
     _scrollController.animateTo(
       event.to,
