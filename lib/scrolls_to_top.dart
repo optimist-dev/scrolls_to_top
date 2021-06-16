@@ -2,9 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-typedef ScrollsToTopListenerCallback = Future<void> Function(
-  ScrollToStartEvent event,
-);
+typedef ScrollsToTopCallback = Future<void> Function(ScrollToStartEvent event);
 
 class ScrollToStartEvent {
   ScrollToStartEvent(
@@ -26,7 +24,7 @@ class ScrollsToTop extends StatefulWidget {
   }) : super(key: key);
 
   final Widget child;
-  final ScrollsToTopListenerCallback onScrollsToTop;
+  final ScrollsToTopCallback onScrollsToTop;
 
   @override
   State<ScrollsToTop> createState() => _ScrollsToTopState();
@@ -78,14 +76,14 @@ class _FakeScrollPositionWithSingleContext
     extends ScrollPositionWithSingleContext {
   _FakeScrollPositionWithSingleContext({
     required BuildContext context,
-    required ScrollsToTopListenerCallback callback,
+    required ScrollsToTopCallback callback,
   })  : _onScrollsToTop = callback,
         super(
           physics: const NeverScrollableScrollPhysics(),
           context: _FakeScrollContext(context),
         );
 
-  final ScrollsToTopListenerCallback _onScrollsToTop;
+  final ScrollsToTopCallback _onScrollsToTop;
 
   @override
   Future<void> animateTo(
