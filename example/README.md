@@ -1,3 +1,3 @@
 # example
 
-Example of Scrolls to top feature
+Example of a dart package for working with scrolls-to-top iOS feature

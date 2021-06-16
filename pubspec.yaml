@@ -1,5 +1,5 @@
 name: scrolls_to_top
-description: A dart package for working scrolls-to-top iOS feature
+description: A dart package for working with scrolls-to-top iOS feature
 version: 1.0.0
 homepage: https://github.com/optimist-dev/scrolls_to_top
 
