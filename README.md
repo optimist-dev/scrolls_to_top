@@ -1,14 +1,12 @@
-# scrolls_to_top
+# Scrolls to top
 
-Scrolls to top
+A dart package for working scrolls-to-top iOS feature
 
-## Getting Started
+Why is this needed? 
+This is necessary for those cases when you have several nested Scaffolds or you need to distinguish the tap event in the status bar from other scroll events
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+![](arts/example.gif)
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Usage
+
+Just wrap your main `Scaffold` with `ScrollsToTop` and provide `onScrollsToTop` argument
