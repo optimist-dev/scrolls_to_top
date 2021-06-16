@@ -47,10 +47,10 @@ class _HomePageState extends State<HomePage> {
         body: IndexedStack(
           index: _currentIndex,
           children: _children,
-        ), // new
+        ),
         bottomNavigationBar: BottomNavigationBar(
-          onTap: onTabTapped, // new
-          currentIndex: _currentIndex, // new
+          onTap: onTabTapped,
+          currentIndex: _currentIndex,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
             BottomNavigationBarItem(icon: Icon(Icons.mail), label: 'Messages'),
