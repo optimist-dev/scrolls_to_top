@@ -5,7 +5,7 @@ A dart package for working with scrolls-to-top iOS feature
 Why is this needed? 
 This is necessary for those cases when you have several nested Scaffolds or you need to distinguish the tap event in the status bar from other scroll events
 
-![](arts/example.gif)
+<img src="https://github.com/optimist-dev/scrolls_to_top/blob/main/arts/example.gif?raw=true">
 
 ## Usage
 
