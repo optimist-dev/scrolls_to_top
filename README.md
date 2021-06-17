@@ -1,5 +1,7 @@
 # Scrolls to top
 
+[![pub package](https://img.shields.io/pub/v/scrolls_to_top.svg)](https://pub.dev/packages/scrolls_to_top)
+
 A dart package for working with scrolls-to-top iOS feature
 
 Why is this needed? 
