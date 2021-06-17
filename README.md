@@ -15,18 +15,15 @@ Just wrap your main `Scaffold` with `ScrollsToTop` and provide `onScrollsToTop` 
   @override
   Widget build(BuildContext context) {
     return ScrollsToTop(
+      onScrollsToTop: _onScrollsToTop,
       child: Scaffold(
         appBar: AppBar(title: const Text('Scroll to top')),
-        body: _body(),
+        body: Container(),
       ),
-      onScrollsToTop: _onScrollsToTop,
     );
   }
 
-  Widget _body() {
-    return Container();
-  }
-
   Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {
+    //TODO: Your code
   }
 ```

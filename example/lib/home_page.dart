@@ -16,20 +16,7 @@ class _HomePageState extends State<HomePage> {
     PublishSubject<ScrollsToTopEvent>(),
     PublishSubject<ScrollsToTopEvent>(),
   ];
-  final List<Widget> _children = [];
   int _currentIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _children.addAll(
-      [
-        ContentPage(backgroundColor: Colors.white, stream: _streams[0]),
-        ContentPage(backgroundColor: Colors.deepOrange, stream: _streams[1]),
-        ContentPage(backgroundColor: Colors.green, stream: _streams[2]),
-      ],
-    );
-  }
 
   @override
   void dispose() {
@@ -42,14 +29,28 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return ScrollsToTop(
+      onScrollsToTop: _onScrollsToTop,
       child: Scaffold(
         appBar: AppBar(title: const Text('Scroll to top')),
         body: IndexedStack(
           index: _currentIndex,
-          children: _children,
+          children: [
+            ContentPage(
+              backgroundColor: Colors.white,
+              stream: _streams[0],
+            ),
+            ContentPage(
+              backgroundColor: Colors.deepOrange,
+              stream: _streams[1],
+            ),
+            ContentPage(
+              backgroundColor: Colors.green,
+              stream: _streams[2],
+            ),
+          ],
         ),
         bottomNavigationBar: BottomNavigationBar(
-          onTap: onTabTapped,
+          onTap: _onTabTapped,
           currentIndex: _currentIndex,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
@@ -58,7 +59,6 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      onScrollsToTop: _onScrollsToTop,
     );
   }
 
@@ -66,11 +66,7 @@ class _HomePageState extends State<HomePage> {
     _streams[_currentIndex].add(event);
   }
 
-  Widget _body() {
-    return Container();
-  }
-
-  void onTabTapped(int index) {
+  void _onTabTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
