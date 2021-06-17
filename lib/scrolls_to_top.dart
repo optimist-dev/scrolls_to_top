@@ -2,28 +2,41 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
+/// Callback for handle scrolls-to-top event
 typedef ScrollsToTopCallback = Future<void> Function(ScrollsToTopEvent event);
 
+/// Event of scrolls-to-top
 class ScrollsToTopEvent {
+  /// Create new event from [ScrollController.animateTo] arguments
   ScrollsToTopEvent(
     this.to, {
     required this.duration,
     required this.curve,
   });
 
+  /// [to] from [ScrollController.animateTo]
   final double to;
+
+  /// [duration] from [ScrollController.animateTo]
   final Duration duration;
+
+  /// [curve] from [ScrollController.animateTo]
   final Curve curve;
 }
 
+/// Widget for catch scrolls-to-top event
 class ScrollsToTop extends StatefulWidget {
+  /// Creates new ScrollsToTop widget
   const ScrollsToTop({
     Key? key,
-    required this.child,
+    required this.scaffold,
     required this.onScrollsToTop,
   }) : super(key: key);
 
-  final Widget child;
+  /// Primary scaffold of your app
+  final Scaffold scaffold;
+
+  /// Callback for handle scrolls-to-top event
   final ScrollsToTopCallback onScrollsToTop;
 
   @override
@@ -53,7 +66,7 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
       _attach(context);
       _attached = true;
     }
-    return widget.child;
+    return widget.scaffold;
   }
 
   void _attach(BuildContext context) {
