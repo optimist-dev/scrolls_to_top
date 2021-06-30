@@ -7,11 +7,11 @@ class ContentPage extends StatefulWidget {
   const ContentPage({
     Key? key,
     required this.backgroundColor,
-    required this.stream,
+    required this.isOnScreen,
   }) : super(key: key);
 
   final Color backgroundColor;
-  final Stream<ScrollsToTopEvent> stream;
+  final bool isOnScreen;
 
   @override
   State<ContentPage> createState() => _ContentPageState();
@@ -19,38 +19,30 @@ class ContentPage extends StatefulWidget {
 
 class _ContentPageState extends State<ContentPage> {
   final _scrollController = ScrollController();
-  StreamSubscription? _subscription;
-
-  @override
-  void initState() {
-    super.initState();
-    _subscription = widget.stream.listen(_onScrollsToTop);
-  }
 
   @override
   void dispose() {
     _scrollController.dispose();
-    _subscription?.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return PrimaryScrollController(
-      controller: _scrollController,
-      child: Scaffold(
-        primary: true,
-        body: _list(),
-        backgroundColor: widget.backgroundColor,
-      ),
+    return Scaffold(
+      primary: true,
+      body: _list(),
+      backgroundColor: widget.backgroundColor,
     );
   }
 
   Widget _list() {
-    return ListView.builder(
-      itemBuilder: _itemBuilder,
-      itemCount: 100,
-      controller: _scrollController,
+    return ScrollsToTop(
+      onScrollsToTop: _onScrollsToTop,
+      child: ListView.builder(
+        itemBuilder: _itemBuilder,
+        itemCount: 100,
+        controller: _scrollController,
+      ),
     );
   }
 
@@ -63,6 +55,8 @@ class _ContentPageState extends State<ContentPage> {
   }
 
   Future<void> _onScrollsToTop(ScrollsToTopEvent event) async {
+    if (!widget.isOnScreen) return;
+
     debugPrint('Scroll to top!');
     _scrollController.animateTo(
       event.to,

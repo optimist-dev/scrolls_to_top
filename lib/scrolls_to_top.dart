@@ -29,12 +29,12 @@ class ScrollsToTop extends StatefulWidget {
   /// Creates new ScrollsToTop widget
   const ScrollsToTop({
     Key? key,
-    required this.scaffold,
+    required this.child,
     required this.onScrollsToTop,
   }) : super(key: key);
 
-  /// Primary scaffold of your app
-  final Scaffold scaffold;
+  /// Any child widget
+  final Widget child;
 
   /// Callback for handle scrolls-to-top event
   final ScrollsToTopCallback onScrollsToTop;
@@ -66,7 +66,7 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
       _attach(context);
       _attached = true;
     }
-    return widget.scaffold;
+    return widget.child;
   }
 
   void _attach(BuildContext context) {
@@ -90,13 +90,13 @@ class _FakeScrollPositionWithSingleContext
   _FakeScrollPositionWithSingleContext({
     required BuildContext context,
     required ScrollsToTopCallback callback,
-  })  : _onScrollsToTop = callback,
+  })  : _callback = callback,
         super(
           physics: const NeverScrollableScrollPhysics(),
           context: _FakeScrollContext(context),
         );
 
-  final ScrollsToTopCallback _onScrollsToTop;
+  final ScrollsToTopCallback _callback;
 
   @override
   Future<void> animateTo(
@@ -104,7 +104,7 @@ class _FakeScrollPositionWithSingleContext
     required Duration duration,
     required Curve curve,
   }) {
-    return _onScrollsToTop(
+    return _callback(
       ScrollsToTopEvent(to, duration: duration, curve: curve),
     );
   }
