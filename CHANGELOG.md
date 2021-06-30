@@ -1,3 +1,7 @@
+## 1.0.3
+
+- Fix readme
+
 ## 1.0.2
 
 - Simplify example
