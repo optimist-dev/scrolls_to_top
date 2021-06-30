@@ -11,7 +11,7 @@ This is necessary for those cases when you have several nested Scaffolds or you 
 
 ## Usage
 
-Just wrap your main `Scaffold` with `ScrollsToTop` and provide `onScrollsToTop` argument
+Just wrap any widget with `ScrollsToTop` and provide `onScrollsToTop` argument
 
 ```dart
   @override
