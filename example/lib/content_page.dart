@@ -48,8 +48,10 @@ class _ContentPageState extends State<ContentPage> {
 
   Widget _itemBuilder(BuildContext context, int index) {
     return Container(
-      decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
-      padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.blue),
+      ),
+      padding: const EdgeInsets.all(20),
       child: Text('$index', style: const TextStyle(fontSize: 20)),
     );
   }
