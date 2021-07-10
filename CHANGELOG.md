@@ -1,3 +1,7 @@
+## 1.1.0
+
+- Fix wrong dispose thanks to https://github.com/mixable
+
 ## 1.0.3
 
 - Fix readme

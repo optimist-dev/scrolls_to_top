@@ -54,7 +54,6 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
         _primaryScrollController?.detach(_scrollPositionWithSingleContext!);
     _scrollPositionWithSingleContext?.dispose();
     _scrollPositionWithSingleContext = null;
-    _primaryScrollController?.dispose();
     _primaryScrollController = null;
     _attached = false;
     super.dispose();

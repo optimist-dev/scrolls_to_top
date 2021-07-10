@@ -29,3 +29,8 @@ Just wrap any widget with `ScrollsToTop` and provide `onScrollsToTop` argument
     //TODO: Your code
   }
 ```
+
+## Warning
+
+- You need to have at least one Scaffold in your application
+- If you use several Navigators, the tap events will come only to the widgets inside the main Navigator
