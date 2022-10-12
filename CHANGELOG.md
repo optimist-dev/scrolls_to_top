@@ -1,3 +1,7 @@
+## 2.0.
+
+- Flutter 3.0
+
 ## 1.1.1
 
 - Update deps
