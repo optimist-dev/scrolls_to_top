@@ -1,3 +1,8 @@
+## 2.1.0
+
+- Flutter 3.7.1
+- Fix dispose method. Thanks to @REKURDennis
+
 ## 2.0.0
 
 - Flutter 3.0

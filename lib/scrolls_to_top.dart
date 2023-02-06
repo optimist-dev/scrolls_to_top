@@ -22,6 +22,11 @@ class ScrollsToTopEvent {
 
   /// [curve] from [ScrollController.animateTo]
   final Curve curve;
+
+  @override
+  String toString() {
+    return 'ScrollsToTopEvent{to: $to, duration: $duration, curve: $curve}';
+  }
 }
 
 /// Widget for catch scrolls-to-top event
@@ -50,9 +55,12 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
 
   @override
   void dispose() {
-    _scrollPositionWithSingleContext ??
-        _primaryScrollController?.detach(_scrollPositionWithSingleContext!);
-    _scrollPositionWithSingleContext?.dispose();
+    final scrollPositionWithSingleContext = _scrollPositionWithSingleContext;
+    if (scrollPositionWithSingleContext != null) {
+      _primaryScrollController?.detach(scrollPositionWithSingleContext);
+    }
+    scrollPositionWithSingleContext?.dispose();
+    _scrollPositionWithSingleContext = null;
     _scrollPositionWithSingleContext = null;
     _primaryScrollController = null;
     _attached = false;
@@ -70,8 +78,8 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
 
   void _attach(BuildContext context) {
     final primaryScrollController =
-        PrimaryScrollController.of(Navigator.of(context).context) ??
-            PrimaryScrollController.of(context);
+        PrimaryScrollController.maybeOf(Navigator.of(context).context) ??
+            PrimaryScrollController.maybeOf(context);
     if (primaryScrollController == null) return;
 
     final scrollPositionWithSingleContext =
