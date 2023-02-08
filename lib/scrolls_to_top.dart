@@ -78,8 +78,8 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
 
   void _attach(BuildContext context) {
     final primaryScrollController =
-        PrimaryScrollController.maybeOf(Navigator.of(context).context) ??
-            PrimaryScrollController.maybeOf(context);
+        PrimaryScrollController.of(Navigator.of(context).context) ??
+            PrimaryScrollController.of(context);
     if (primaryScrollController == null) return;
 
     final scrollPositionWithSingleContext =
