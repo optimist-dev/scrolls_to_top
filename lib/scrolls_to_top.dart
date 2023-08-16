@@ -1,19 +1,32 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
 /// Callback for handle scrolls-to-top event
 typedef ScrollsToTopCallback = Future<void> Function(ScrollsToTopEvent event);
 
+/// Widget for catch scrolls-to-top event
+class ScrollsToTop extends StatefulWidget {
+  /// Any child widget
+  final Widget child;
+
+  /// Callback for handle scrolls-to-top event
+  final ScrollsToTopCallback onScrollsToTop;
+
+  /// Creates new ScrollsToTop widget
+  const ScrollsToTop({
+    Key? key,
+    required this.child,
+    required this.onScrollsToTop,
+  }) : super(key: key);
+
+  @override
+  State<ScrollsToTop> createState() => _ScrollsToTopState();
+}
+
 /// Event of scrolls-to-top
 class ScrollsToTopEvent {
-  /// Create new event from [ScrollController.animateTo] arguments
-  ScrollsToTopEvent(
-    this.to, {
-    required this.duration,
-    required this.curve,
-  });
-
   /// [to] from [ScrollController.animateTo]
   final double to;
 
@@ -23,35 +36,97 @@ class ScrollsToTopEvent {
   /// [curve] from [ScrollController.animateTo]
   final Curve curve;
 
+  /// Create new event from [ScrollController.animateTo] arguments
+  ScrollsToTopEvent(
+    this.to, {
+    required this.duration,
+    required this.curve,
+  });
+
   @override
   String toString() {
     return 'ScrollsToTopEvent{to: $to, duration: $duration, curve: $curve}';
   }
 }
 
-/// Widget for catch scrolls-to-top event
-class ScrollsToTop extends StatefulWidget {
-  /// Creates new ScrollsToTop widget
-  const ScrollsToTop({
-    Key? key,
-    required this.child,
-    required this.onScrollsToTop,
-  }) : super(key: key);
+class _FakeScrollContext extends ScrollContext {
+  final BuildContext _context;
 
-  /// Any child widget
-  final Widget child;
-
-  /// Callback for handle scrolls-to-top event
-  final ScrollsToTopCallback onScrollsToTop;
+  _FakeScrollContext(this._context);
 
   @override
-  State<ScrollsToTop> createState() => _ScrollsToTopState();
+  AxisDirection get axisDirection => AxisDirection.down;
+
+  @override
+  double get devicePixelRatio => View.of(_context).devicePixelRatio;
+
+  @override
+  BuildContext get notificationContext => _context;
+
+  @override
+  BuildContext get storageContext => _context;
+
+  @override
+  TickerProvider get vsync => _FakeTickerProvider();
+
+  @override
+  void saveOffset(double offset) {}
+
+  @override
+  void setCanDrag(bool value) {}
+
+  @override
+  void setIgnorePointer(bool value) {}
+
+  @override
+  void setSemanticsActions(Set<SemanticsAction> actions) {}
+}
+
+class _FakeScrollPositionWithSingleContext
+    extends ScrollPositionWithSingleContext {
+  final ScrollsToTopCallback _callback;
+
+  _FakeScrollPositionWithSingleContext({
+    required BuildContext context,
+    required ScrollsToTopCallback callback,
+  })  : _callback = callback,
+        super(
+          physics: const NeverScrollableScrollPhysics(),
+          context: _FakeScrollContext(context),
+        );
+
+  @override
+  Future<void> animateTo(
+    double to, {
+    required Duration duration,
+    required Curve curve,
+  }) {
+    return _callback(
+      ScrollsToTopEvent(to, duration: duration, curve: curve),
+    );
+  }
+}
+
+class _FakeTickerProvider extends TickerProvider {
+  @override
+  Ticker createTicker(TickerCallback onTick) {
+    return Ticker(onTick);
+  }
 }
 
 class _ScrollsToTopState extends State<ScrollsToTop> {
   ScrollController? _primaryScrollController;
   ScrollPositionWithSingleContext? _scrollPositionWithSingleContext;
   bool _attached = false;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!_attached) {
+      _attach(context);
+      _attached = true;
+    }
+    return widget.child;
+  }
 
   @override
   void dispose() {
@@ -65,15 +140,6 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
     _primaryScrollController = null;
     _attached = false;
     super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (!_attached) {
-      _attach(context);
-      _attached = true;
-    }
-    return widget.child;
   }
 
   void _attach(BuildContext context) {
@@ -91,67 +157,5 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
 
     _primaryScrollController = primaryScrollController;
     _scrollPositionWithSingleContext = scrollPositionWithSingleContext;
-  }
-}
-
-class _FakeScrollPositionWithSingleContext
-    extends ScrollPositionWithSingleContext {
-  _FakeScrollPositionWithSingleContext({
-    required BuildContext context,
-    required ScrollsToTopCallback callback,
-  })  : _callback = callback,
-        super(
-          physics: const NeverScrollableScrollPhysics(),
-          context: _FakeScrollContext(context),
-        );
-
-  final ScrollsToTopCallback _callback;
-
-  @override
-  Future<void> animateTo(
-    double to, {
-    required Duration duration,
-    required Curve curve,
-  }) {
-    return _callback(
-      ScrollsToTopEvent(to, duration: duration, curve: curve),
-    );
-  }
-}
-
-class _FakeScrollContext extends ScrollContext {
-  _FakeScrollContext(this._context);
-
-  final BuildContext _context;
-
-  @override
-  AxisDirection get axisDirection => AxisDirection.down;
-
-  @override
-  BuildContext get notificationContext => _context;
-
-  @override
-  void saveOffset(double offset) {}
-
-  @override
-  void setCanDrag(bool value) {}
-
-  @override
-  void setIgnorePointer(bool value) {}
-
-  @override
-  void setSemanticsActions(Set<SemanticsAction> actions) {}
-
-  @override
-  BuildContext get storageContext => _context;
-
-  @override
-  TickerProvider get vsync => _FakeTickerProvider();
-}
-
-class _FakeTickerProvider extends TickerProvider {
-  @override
-  Ticker createTicker(TickerCallback onTick) {
-    return Ticker(onTick);
   }
 }
