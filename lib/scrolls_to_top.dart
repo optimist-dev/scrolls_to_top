@@ -147,7 +147,7 @@ class _FakeScrollContext extends ScrollContext {
 
   @override
   TickerProvider get vsync => _FakeTickerProvider();
-  
+
   @override
   double get devicePixelRatio => MediaQuery.of(_context).devicePixelRatio;
 }

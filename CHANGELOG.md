@@ -1,3 +1,8 @@
+## 2.1.1
+
+- Fix devicePixelRatio. Thanks to @changweihua
+- Change sdk constraints to ">=2.18.0 <4.0.0"
+
 ## 2.1.0
 
 - Flutter 3.7.1
