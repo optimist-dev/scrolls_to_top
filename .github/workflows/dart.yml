@@ -19,7 +19,7 @@ jobs:
         with:
           channel: 'stable'
       - run: flutter pub get
-      - run: flutter format --set-exit-if-changed .
+      - run: dart format --set-exit-if-changed .
 
   package-analysis:
     runs-on: ubuntu-latest
