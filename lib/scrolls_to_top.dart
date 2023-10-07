@@ -61,7 +61,6 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
     }
     scrollPositionWithSingleContext?.dispose();
     _scrollPositionWithSingleContext = null;
-    _scrollPositionWithSingleContext = null;
     _primaryScrollController = null;
     _attached = false;
     super.dispose();
