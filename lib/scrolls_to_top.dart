@@ -1,6 +1,8 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 /// Callback for handle scrolls-to-top event
 typedef ScrollsToTopCallback = Future<void> Function(ScrollsToTopEvent event);
@@ -34,6 +36,7 @@ class ScrollsToTop extends StatefulWidget {
   /// Creates new ScrollsToTop widget
   const ScrollsToTop({
     Key? key,
+    this.uniqueKey,
     required this.child,
     required this.onScrollsToTop,
   }) : super(key: key);
@@ -44,6 +47,9 @@ class ScrollsToTop extends StatefulWidget {
   /// Callback for handle scrolls-to-top event
   final ScrollsToTopCallback onScrollsToTop;
 
+  /// Unique key for VisibilityDetector
+  final Key? uniqueKey;
+
   @override
   State<ScrollsToTop> createState() => _ScrollsToTopState();
 }
@@ -52,6 +58,7 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
   ScrollController? _primaryScrollController;
   ScrollPositionWithSingleContext? _scrollPositionWithSingleContext;
   bool _attached = false;
+  bool _visible = false;
 
   @override
   void dispose() {
@@ -73,7 +80,16 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
       _attach(context);
       _attached = true;
     }
-    return widget.child;
+    return widget.uniqueKey == null
+        ? widget.child
+        : VisibilityDetector(
+            key: widget.uniqueKey!,
+            onVisibilityChanged: (info) {
+              _visible = info.visibleFraction == 1;
+              print(
+                  'VisibilityDetector: ${info.visibleFraction}, ${widget.onScrollsToTop.hashCode}');
+            },
+            child: widget.child);
   }
 
   void _attach(BuildContext context) {
@@ -85,7 +101,11 @@ class _ScrollsToTopState extends State<ScrollsToTop> {
     final scrollPositionWithSingleContext =
         _FakeScrollPositionWithSingleContext(
       context: context,
-      callback: widget.onScrollsToTop,
+      callback: (event) async {
+        if (_visible) {
+          widget.onScrollsToTop(event);
+        }
+      },
     );
     primaryScrollController.attach(scrollPositionWithSingleContext);
 
